@@ -567,7 +567,7 @@
                 <form id="form-login" onsubmit="handleLogin(event)">
                     <div class="form-group" style="text-align: left;">
                         <label>Username / Email</label>
-                        <input type="text" id="login-username" class="form-control" placeholder="Masudkan username" required>
+                        <input type="text" id="login-username" class="form-control" placeholder="Masukkan username" required>
                     </div>
                     <div class="form-group" style="text-align: left;">
                         <label>Kata Laluan</label>
@@ -895,7 +895,7 @@
             <div class="seller-public-header">
                 <img id="pub-seller-avatar" src="" class="seller-avatar">
                 <h1 class="pub-seller-name" id="pub-seller-name">Scha Atelier</h1>
-                <p style="font-size: 0.9rem; color: #666; margin-top: 5px;">Pusat Bahan Learning & Modul Digital Berkuliti</p>
+                <p style="font-size: 0.9rem; color: #666; margin-top: 5px;">Pusat Bahan Learning & Modul Digital Berkualiti</p>
                 <div class="social-links-bar" id="pub-social-links"></div>
             </div>
 
@@ -1315,12 +1315,12 @@
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('open');
         }
-window.addEventListener('DOMContentLoaded', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('store') || window.location.hash || window.location.pathname.includes('/store')) {
-        navToBuyerStore();
-    }
-});
+
+        function copyStoreLink() {
+            const seller = getSeller();
+            const link = `${window.location.origin}/store/${seller.username}`;
+            
+            if (navigator.clipboard) {
                 navigator.clipboard.writeText(link).then(() => {
                     showToast("Link Store berjaya disalin.");
                 });
@@ -2013,10 +2013,11 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        /* Direct Route Listener for Public Buyer Links vs Private Hub */
+        /* Fixed Direct Route Listener */
         window.addEventListener('DOMContentLoaded', () => {
-            const path = window.location.pathname;
-            if (path.includes('/store/')) {
+            const urlParams = new URLSearchParams(window.location.search);
+            // Hanya redirect ke kedai pembeli jika dibuka melalui URL store khas
+            if (urlParams.get('mode') === 'store' || window.location.pathname.startsWith('/store/')) {
                 navToBuyerStore();
             }
         });
