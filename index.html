@@ -1315,12 +1315,12 @@
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('open');
         }
-
-        function copyStoreLink() {
-            const seller = getSeller();
-            const link = `${window.location.origin}/store/${seller.username}`;
-            
-            if (navigator.clipboard) {
+window.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('store') || window.location.hash || window.location.pathname.includes('/store')) {
+        navToBuyerStore();
+    }
+});
                 navigator.clipboard.writeText(link).then(() => {
                     showToast("Link Store berjaya disalin.");
                 });
