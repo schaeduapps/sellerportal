@@ -3,665 +3,762 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sarah Learning Digital Store - Platform Bahan Pengajaran</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
+    <title>DIGITAL LEARNING STORE</title>
+    <!-- Font Awesome Icons CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .glass-header {
-            background: rgba(255, 255, 255, 0.85);
+        :root {
+            /* Soft Pastel Palette */
+            --bg-gradient: linear-gradient(135deg, #FFF0F5 0%, #F3E8FF 25%, #E0F2FE 50%, #FFE4E6 75%, #F0FDF4 100%);
+            --primary: #7C3AED;
+            --primary-hover: #6D28D9;
+            --primary-light: #F3E8FF;
+            --secondary: #EC4899;
+            --accent-blue: #0284C7;
+            --accent-green: #16A34A;
+            --text-main: #1E293B;
+            --text-muted: #64748B;
+            --bg-card: rgba(255, 255, 255, 0.85);
+            --bg-card-solid: #FFFFFF;
+            --border-color: rgba(226, 232, 240, 0.8);
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.02);
+            --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.01);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --radius-sm: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.02); }
+        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+
+        .view-page {
+            display: none;
+            width: 100%;
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+
+        .view-page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Buttons & Forms */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, #9333EA 100%);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(124, 58, 237, 0.35);
+        }
+        .btn-secondary {
+            background: #F1F5F9;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+        }
+        .btn-secondary:hover {
+            background: #E2E8F0;
+        }
+        .btn-success {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: white;
+        }
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+        }
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border-radius: var(--radius-sm);
+        }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: var(--bg-card);
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 24px;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+        .badge-warning { background: #FEF3C7; color: #B45309; }
+
+        /* Product Cards Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 24px;
         }
         .product-card {
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            background: #fff;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.2s ease;
         }
         .product-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-md);
+        }
+        .product-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: #F1F5F9;
+        }
+        .product-body {
+            padding: 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Public Store Styles */
+        .public-store-header {
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .store-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #fff;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 12px;
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1E293B;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            animation: toastIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Month Selector Bar */
+        .month-btn {
+            padding: 8px 16px;
+            border-radius: var(--radius-md);
+            background: #fff;
+            border: 1px solid var(--border-color);
+            white-space: nowrap;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        .month-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+<body>
 
-    <!-- Toast Notification Container -->
-    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+    <!-- ==================== VIEW 1: PUBLIC CUSTOMER STOREFRONT ==================== -->
+    <div id="view-public-store" class="view-page active">
+        <div class="public-store-header">
+            <img id="public-store-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&auto=format&fit=crop&q=80" class="store-avatar">
+            <h1 id="public-store-title" style="font-size:1.8rem; font-weight:800;">Sarah Learning Digital Store</h1>
+            <p style="color:var(--text-muted); font-size:0.95rem; margin-top:4px;">Pusat bahan pembelajaran digital dan modul latih tubi interaktif</p>
 
-    <!-- Navigation Header -->
-    <header class="glass-header sticky top-0 z-40 border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Logo & Store Name -->
-                <div class="flex items-center space-x-3 cursor-pointer" onclick="openPublicStore()">
-                    <div class="bg-indigo-600 text-white p-2.5 rounded-xl shadow-md flex items-center justify-center">
-                        <i class="fa-solid fa-graduation-cap text-xl"></i>
-                    </div>
-                    <div>
-                        <span class="font-bold text-lg text-slate-900 leading-tight block">Sarah Learning</span>
-                        <span class="text-xs text-indigo-600 font-medium">Digital Store</span>
-                    </div>
-                </div>
-
-                <!-- View Switcher Controls -->
-                <div class="flex items-center space-x-2 bg-slate-100 p-1 rounded-xl border border-slate-200">
-                    <button id="btn-view-seller" onclick="switchView('seller')" class="flex items-center space-x-2 px-3 sm:px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200">
-                        <i class="fa-solid fa-store"></i>
-                        <span class="hidden sm:inline">Dashboard Seller</span>
-                    </button>
-                    <button id="btn-view-public" onclick="switchView('public')" class="flex items-center space-x-2 px-3 sm:px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200">
-                        <i class="fa-solid fa-bag-shopping"></i>
-                        <span class="hidden sm:inline">Kedai Awam</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- MAIN CONTENT AREA -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
-        <!-- 1. SELLER HUB VIEW -->
-        <div id="view-seller" class="space-y-8 hidden">
-            <!-- Header Info & Actions -->
-            <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div>
-                    <h1 class="text-2xl font-bold text-slate-900">Seller Hub & Dashboard</h1>
-                    <p class="text-slate-500 text-sm mt-1">Uruskan bahan pengajaran digital, muat naik produk baru dan kawal jualan anda.</p>
-                </div>
-                <div class="flex flex-wrap items-center gap-3">
-                    <button onclick="copyStoreLink()" class="flex items-center space-x-2 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-xl border border-slate-300 transition-colors text-sm">
-                        <i class="fa-regular fa-copy text-indigo-600"></i>
-                        <span>Copy Link Kedai</span>
-                    </button>
-                    <button onclick="openAddProductModal()" class="flex items-center space-x-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl shadow-md transition-colors text-sm">
-                        <i class="fa-solid fa-plus"></i>
-                        <span>Tambah Produk Baru</span>
-                    </button>
-                </div>
+            <!-- Social Links -->
+            <div id="public-social-icons" style="display:flex; justify-content:center; gap:12px; margin-top:16px; flex-wrap:wrap;">
+                <!-- Populated JS -->
             </div>
 
-            <!-- Stats Overview -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                    <div class="flex items-center justify-between">
-                        <span class="text-slate-500 text-sm font-medium">Jumlah Produk</span>
-                        <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
-                            <i class="fa-solid fa-folder-open"></i>
-                        </div>
-                    </div>
-                    <div class="mt-4">
-                        <span id="stat-total-products" class="text-3xl font-bold text-slate-900">0</span>
-                    </div>
-                </div>
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                    <div class="flex items-center justify-between">
-                        <span class="text-slate-500 text-sm font-medium">Kategori Aktif</span>
-                        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                            <i class="fa-solid fa-layer-group"></i>
-                        </div>
-                    </div>
-                    <div class="mt-4">
-                        <span id="stat-total-categories" class="text-3xl font-bold text-slate-900">0</span>
-                    </div>
-                </div>
-                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                    <div class="flex items-center justify-between">
-                        <span class="text-slate-500 text-sm font-medium">Status Storage (Local)</span>
-                        <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-                            <i class="fa-solid fa-database"></i>
-                        </div>
-                    </div>
-                    <div class="mt-4 flex items-center justify-between">
-                        <span class="text-lg font-semibold text-slate-700">Aktif</span>
-                        <button onclick="resetToDefaultData()" class="text-xs text-rose-600 hover:text-rose-700 underline font-medium">Reset Demo</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Seller Product List Table / Grid -->
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center">
-                    <h2 class="font-bold text-slate-900">Senarai Bahan Digital Anda</h2>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="bg-slate-50 text-slate-500 text-xs font-semibold uppercase border-b border-slate-200">
-                                <th class="px-6 py-3">Produk</th>
-                                <th class="px-6 py-3">Kategori</th>
-                                <th class="px-6 py-3">Harga</th>
-                                <th class="px-6 py-3">Format</th>
-                                <th class="px-6 py-3 text-right">Tindakan</th>
-                            </tr>
-                        </thead>
-                        <tbody id="seller-product-table-body" class="divide-y divide-slate-200 text-sm text-slate-700">
-                            <!-- Populated via JS -->
-                        </tbody>
-                    </table>
-                </div>
+            <div style="margin-top: 20px;">
+                <button class="btn btn-secondary btn-sm" onclick="copyStoreLink()"><i class="fa-solid fa-share-nodes"></i> Copy Link Kedai</button>
             </div>
         </div>
 
-        <!-- 2. PUBLIC STOREFRONT VIEW -->
-        <div id="view-public" class="space-y-8 hidden">
-            <!-- Hero Banner -->
-            <div class="bg-gradient-to-r from-indigo-600 to-indigo-800 text-white rounded-3xl p-8 sm:p-12 shadow-xl relative overflow-hidden">
-                <div class="max-w-2xl relative z-10">
-                    <span class="bg-indigo-500/40 text-indigo-100 text-xs font-semibold px-3 py-1 rounded-full border border-indigo-400/30 uppercase tracking-wider inline-block mb-3">Pusat Bahan Digital</span>
-                    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Koleksi Bahan Pengajaran & Pembelajaran Digital</h1>
-                    <p class="mt-3 text-indigo-100 text-sm sm:text-base leading-relaxed">Muat turun modul, slaid pengajaran, lembaran kerja, dan bahan ABM berkualiti tinggi terus ke peranti anda.</p>
-                </div>
+        <div style="max-width:1200px; margin: 30px auto; padding:0 20px;">
+            <!-- Folder Selector Filter -->
+            <div style="display:flex; gap:10px; overflow-x:auto; padding-bottom:10px; margin-bottom:24px;" id="public-folder-filter-bar">
+                <!-- Populated via JS -->
             </div>
 
-            <!-- Filter Categories & Search Bar -->
-            <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4">
-                <!-- Search Input -->
-                <div class="relative flex-grow max-w-md">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input type="text" id="public-search" oninput="filterPublicProducts()" placeholder="Cari bahan mengikut tajuk..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white">
-                </div>
-                <!-- Category Filters -->
-                <div id="public-category-filters" class="flex flex-wrap items-center gap-2 overflow-x-auto pb-2 sm:pb-0">
-                    <!-- Dynamic buttons -->
-                </div>
-            </div>
-
-            <!-- Public Products Grid -->
-            <div id="public-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                <!-- Dynamic cards -->
-            </div>
-        </div>
-
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="bg-white border-t border-slate-200 mt-auto">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p class="text-xs text-slate-500">© 2026 Sarah Learning Digital Store. Hak Cipta Terelihara.</p>
-            <div class="flex items-center space-x-4 text-slate-400 text-sm">
-                <a href="#" class="hover:text-indigo-600"><i class="fa-brands fa-whatsapp"></i></a>
-                <a href="#" class="hover:text-indigo-600"><i class="fa-regular fa-envelope"></i></a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- MODAL: ADD / EDIT PRODUCT -->
-    <div id="product-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 space-y-4 relative max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-                <h3 id="modal-title" class="text-lg font-bold text-slate-900">Tambah Bahan Digital Baru</h3>
-                <button onclick="closeProductModal()" class="text-slate-400 hover:text-slate-600 p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-            
-            <form id="product-form" onsubmit="handleProductFormSubmit(event)" class="space-y-4">
-                <input type="hidden" id="form-product-id">
-
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Tajuk Bahan / Produk</label>
-                    <input type="text" id="form-title" required placeholder="Cth: Modul Matematik Tahun 4" class="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Kategori</label>
-                        <input type="text" id="form-category" required placeholder="Cth: Matematik, BM" class="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Harga (RM)</label>
-                        <input type="number" step="0.01" min="0" id="form-price" required placeholder="15.00" class="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Format Fail</label>
-                        <select id="form-format" class="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                            <option value="PDF">PDF Document</option>
-                            <option value="PPTX">PowerPoint (PPTX)</option>
-                            <option value="DOCX">Word Document</option>
-                            <option value="ZIP">ZIP Bundle</option>
-                            <option value="CANVA">Canva Link</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">URL Gambar Preview</label>
-                        <input type="url" id="form-image" placeholder="https://..." class="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Penerangan Ringkas</label>
-                    <textarea id="form-description" rows="3" placeholder="Sebutkan kelebihan, jumlah muka surat, kandungan bahan..." class="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Link Muat Turun (Google Drive / Cloud)</label>
-                    <input type="url" id="form-download-link" required placeholder="https://drive.google.com/file/d/..." class="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                </div>
-
-                <div class="flex justify-end space-x-3 pt-3 border-t border-slate-100">
-                    <button type="button" onclick="closeProductModal()" class="px-4 py-2 bg-slate-100 text-slate-700 font-medium text-sm rounded-xl hover:bg-slate-200">Batal</button>
-                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white font-medium text-sm rounded-xl hover:bg-indigo-700 shadow-md">Simpan Produk</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- MODAL: BUY / PURCHASE VIEW -->
-    <div id="buy-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-100 space-y-4 relative">
-            <button onclick="closeBuyModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
-
-            <div class="text-center space-y-2">
-                <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto text-xl">
-                    <i class="fa-solid fa-download"></i>
-                </div>
-                <h3 class="text-xl font-bold text-slate-900">Dapatkan Bahan Digital</h3>
-                <p class="text-xs text-slate-500">Akses muat turun serta-merta selepas pengesahan.</p>
-            </div>
-
-            <div id="buy-modal-content" class="bg-slate-50 p-4 rounded-xl space-y-2 border border-slate-200">
-                <!-- Dynamic Content -->
-            </div>
-
-            <div class="space-y-3 pt-2">
-                <a id="buy-download-btn" href="#" target="_blank" onclick="closeBuyModal()" class="w-full flex items-center justify-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow-lg transition-colors text-sm">
-                    <i class="fa-solid fa-cloud-arrow-down"></i>
-                    <span>Muat Turun Sekarang</span>
-                </a>
-                <p class="text-[11px] text-slate-400 text-center">Fail disimpan secara selamat di Google Drive / Cloud Storage.</p>
+            <!-- Products Grid -->
+            <div class="product-grid" id="public-products-grid">
+                <!-- Populated via JS -->
             </div>
         </div>
     </div>
 
-    <!-- JAVASCRIPT APP LOGIC -->
+    <!-- ==================== VIEW 2: PUBLIC PRODUCT DETAIL PAGE ==================== -->
+    <div id="view-product-detail" class="view-page">
+        <div style="max-width:900px; margin:40px auto; padding:0 20px;">
+            <button class="btn btn-secondary btn-sm" style="margin-bottom:20px;" onclick="navigateTo('view-public-store')"><i class="fa-solid fa-arrow-left"></i> Kembali ke Kedai</button>
+
+            <div class="glass-card" style="padding:32px;">
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:32px;">
+                    <!-- Gallery Area -->
+                    <div>
+                        <div id="pdetail-media-preview" style="width:100%; height:300px; background:#F1F5F9; border-radius:var(--radius-md); overflow:hidden; margin-bottom:12px; display:flex; align-items:center; justify-content:center;">
+                            <!-- Active Media -->
+                        </div>
+                        <div id="pdetail-thumbnails" style="display:flex; gap:8px; overflow-x:auto; padding-bottom:6px;">
+                            <!-- Thumbnails -->
+                        </div>
+                    </div>
+
+                    <!-- Details Area -->
+                    <div>
+                        <span id="pdetail-id-badge" class="badge badge-warning" style="margin-bottom:8px;">SCH0001</span>
+                        <h1 id="pdetail-title" style="font-size:1.6rem; font-weight:800; margin-bottom:12px;">Modul Matematik Tahun 3</h1>
+                        
+                        <div style="margin-bottom:20px; display:flex; align-items:baseline; gap:12px;">
+                            <span id="pdetail-price-final" style="font-size:2rem; font-weight:800; color:var(--primary);">RM 24.00</span>
+                            <span id="pdetail-price-original" style="font-size:1.1rem; color:var(--text-muted); text-decoration:line-through;">RM 30.00</span>
+                        </div>
+
+                        <p id="pdetail-description" style="color:#475569; font-size:0.95rem; line-height:1.6; margin-bottom:24px;">
+                            Penerangan lengkap mengenai modul latihan matematik ini...
+                        </p>
+
+                        <div id="pdetail-purchase-actions" style="display:flex; flex-direction:column; gap:12px;">
+                            <button class="btn btn-success" style="width:100%; padding:14px;" onclick="startCheckoutSession()"><i class="fa-solid fa-cart-shopping"></i> Teruskan Pembelian</button>
+                            <a id="pdetail-btn-whatsapp" href="#" target="_blank" class="btn btn-secondary" style="width:100%;"><i class="fa-brands fa-whatsapp" style="color:#16A34A;"></i> Chat dengan Seller</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== VIEW 3: CHECKOUT & PAYMENT PAGE ==================== -->
+    <div id="view-checkout" class="view-page">
+        <div style="max-width:600px; margin:40px auto; padding:0 20px;">
+            <div class="glass-card">
+                <div style="text-align:center; padding-bottom:20px; border-bottom:1px solid var(--border-color); margin-bottom:20px;">
+                    <span class="badge badge-warning" style="margin-bottom:8px;">Session ID: <span id="checkout-session-id">SES-1234</span></span>
+                    <h2 style="font-size:1.4rem;">Pembelian Anda</h2>
+                    <div id="checkout-timer" style="margin-top:8px; color:#E11D48; font-weight:700; font-size:0.95rem;">
+                        <i class="fa-regular fa-clock"></i> Session tamat dalam: <span id="timer-display">01:59:59</span>
+                    </div>
+                </div>
+
+                <div style="background:#F8FAFC; padding:16px; border-radius:var(--radius-md); margin-bottom:24px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                        <span style="font-weight:600;" id="checkout-product-name">Modul Matematik Tahun 3</span>
+                        <span id="checkout-product-id" style="color:var(--text-muted); font-size:0.85rem;">SCH0001</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #E2E8F0; padding-top:8px; margin-top:8px;">
+                        <span style="font-weight:700;">Jumlah Bayaran:</span>
+                        <span style="font-size:1.4rem; font-weight:800; color:var(--primary);" id="checkout-price">RM 24.00</span>
+                    </div>
+                </div>
+
+                <h3 style="font-size:1.1rem; margin-bottom:16px; text-align:center;">Pilih Kaedah Pembayaran QR</h3>
+
+                <!-- QR Option Tabs -->
+                <div style="display:flex; gap:8px; margin-bottom:20px; justify-content:center;">
+                    <button class="btn btn-secondary btn-sm qr-tab-btn active" onclick="switchQRTab('bank')" id="qrtab-bank">QR Bank</button>
+                    <button class="btn btn-secondary btn-sm qr-tab-btn" onclick="switchQRTab('tng')" id="qrtab-tng">Touch 'n Go</button>
+                    <button class="btn btn-secondary btn-sm qr-tab-btn" onclick="switchQRTab('aeon')" id="qrtab-aeon">AEON Bank</button>
+                </div>
+
+                <!-- QR Display Container -->
+                <div style="text-align:center; margin-bottom:24px;">
+                    <div style="width:240px; height:240px; margin:0 auto; background:#fff; border:2px dashed var(--border-color); border-radius:var(--radius-md); display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative;">
+                        <img id="checkout-qr-img" src="" style="width:100%; height:100%; object-fit:contain; display:none;">
+                        <span id="checkout-qr-placeholder" style="color:var(--text-muted); font-size:0.85rem; padding:20px;">Sila pilih kaedah pembayaran</span>
+                    </div>
+                    <a id="btn-download-qr" download="Payment_QR.png" class="btn btn-secondary btn-sm" style="margin-top:12px; display:inline-flex;"><i class="fa-solid fa-download"></i> Save QR Image</a>
+                </div>
+
+                <div style="background:#FFFBEB; border:1px solid #FDE68A; padding:16px; border-radius:var(--radius-md); font-size:0.85rem; color:#92400E; margin-bottom:24px;">
+                    <p style="font-weight:700; margin-bottom:6px;"><i class="fa-solid fa-circle-info"></i> Langkah Pembayaran:</p>
+                    <ol style="padding-left:18px; line-height:1.5;">
+                        <li>Buat pembayaran menggunakan QR pilihan anda di atas.</li>
+                        <li>Setelah bayaran selesai, screenshot resit pembayaran.</li>
+                        <li>Klik butang WhatsApp di bawah untuk menghantar bukti bayaran bagi mendapatkan link akses bahan.</li>
+                    </ol>
+                </div>
+
+                <button class="btn btn-success" style="width:100%; padding:14px;" onclick="completeSalesAndOpenWhatsApp()"><i class="fa-brands fa-whatsapp fa-lg"></i> WhatsApp Seller Untuk Link Akses</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check" style="color:#10B981;"></i>
+        <span id="toast-message">Mesej pemberitahuan</span>
+    </div>
+
+    <!-- JavaScript Logic Structure -->
     <script>
-        // Default Sample Data
-        const INITIAL_PRODUCTS = [
-            {
-                id: 'prod-1',
-                title: 'Modul Pentaksiran Bilik Darjah (PBD) Sains Tahun 4',
-                category: 'Sains',
-                price: 15.00,
-                format: 'PDF',
-                image: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=500&q=80',
-                description: 'Lengkap dengan skema jawapan. Mengikut DSKP terkini. 45 muka surat soalan latihan berkualiti.',
-                downloadUrl: 'https://drive.google.com'
-            },
-            {
-                id: 'prod-2',
-                title: 'Slaid Interaktif Matematik: Tajuk Pecahan',
-                category: 'Matematik',
-                price: 20.00,
-                format: 'PPTX',
-                image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=500&q=80',
-                description: 'Slaid animasi menarik untuk PDP online & bersemuka. Mengandungi kuiz interaktif murid.',
-                downloadUrl: 'https://drive.google.com'
-            },
-            {
-                id: 'prod-3',
-                title: 'Set Flashcard Tatabahasa Bahasa Melayu',
-                category: 'Bahasa Melayu',
-                price: 10.00,
-                format: 'PDF',
-                image: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=500&q=80',
-                description: 'Bahan Grafik menarik untuk Kata Nama, Kata Kerja, dan Kata Adjektif. Sesuai dicetak.',
-                downloadUrl: 'https://drive.google.com'
-            }
-        ];
+        /* ==========================================================================
+           LOCAL STORAGE DATABASE INITIALIZATION & SEED DATA
+           ========================================================================== */
+        const STORAGE_KEYS = {
+            SELLER: 'dls_seller_profile',
+            FOLDERS: 'dls_folders',
+            PRODUCTS: 'dls_products',
+            PAYMENT_QR: 'dls_payment_qr',
+            SESSIONS: 'dls_checkout_sessions',
+            SALES: 'dls_sales_records'
+        };
 
-        let products = [];
-        let currentView = 'seller'; // 'seller' or 'public'
-        let selectedPublicCategory = 'ALL';
-
-        /* Database Initialization */
+        // Seed initial data if empty
         function initDatabase() {
-            const stored = localStorage.getItem('sl_products_db');
-            if (stored) {
-                try {
-                    products = JSON.parse(stored);
-                } catch(e) {
-                    products = INITIAL_PRODUCTS;
-                    saveDatabase();
-                }
-            } else {
-                products = INITIAL_PRODUCTS;
-                saveDatabase();
-            }
-        }
-
-        function saveDatabase() {
-            localStorage.setItem('sl_products_db', JSON.stringify(products));
-            updateStats();
-        }
-
-        function resetToDefaultData() {
-            if (confirm("Adakah anda pasti untuk reset semula data produk ke sampel asal?")) {
-                products = INITIAL_PRODUCTS;
-                saveDatabase();
-                renderSellerTable();
-                renderPublicProducts();
-                showToast("Data telah di-reset ke data asas.");
-            }
-        }
-
-        /* View Switching System */
-        function switchView(view) {
-            currentView = view;
-            const sellerEl = document.getElementById('view-seller');
-            const publicEl = document.getElementById('view-public');
-            const btnSeller = document.getElementById('btn-view-seller');
-            const btnPublic = document.getElementById('btn-view-public');
-
-            if (view === 'seller') {
-                sellerEl.classList.remove('hidden');
-                publicEl.classList.add('hidden');
-                btnSeller.className = "flex items-center space-x-2 px-3 sm:px-4 py-1.5 rounded-lg text-sm font-semibold bg-white text-indigo-600 shadow-sm border border-slate-200";
-                btnPublic.className = "flex items-center space-x-2 px-3 sm:px-4 py-1.5 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900";
-                renderSellerTable();
-            } else {
-                publicEl.classList.remove('hidden');
-                sellerEl.classList.add('hidden');
-                btnPublic.className = "flex items-center space-x-2 px-3 sm:px-4 py-1.5 rounded-lg text-sm font-semibold bg-white text-indigo-600 shadow-sm border border-slate-200";
-                btnSeller.className = "flex items-center space-x-2 px-3 sm:px-4 py-1.5 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900";
-                renderPublicCategories();
-                renderPublicProducts();
-            }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function openPublicStore() {
-            switchView('public');
-        }
-
-        /* Seller Dashboard Functionalities */
-        function updateStats() {
-            document.getElementById('stat-total-products').innerText = products.length;
-            const categories = [...new Set(products.map(p => p.category))];
-            document.getElementById('stat-total-categories').innerText = categories.length;
-        }
-
-        function renderSellerTable() {
-            const tbody = document.getElementById('seller-product-table-body');
-            tbody.innerHTML = '';
-
-            if (products.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-8 text-center text-slate-400">Tiada produk ditemui. Sila tambah produk baru.</td></tr>`;
-                return;
-            }
-
-            products.forEach(product => {
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50 border-b border-slate-100";
-                tr.innerHTML = `
-                    <td class="px-6 py-4 flex items-center space-x-3">
-                        <img src="${product.image || 'https://via.placeholder.com/80'}" class="w-10 h-10 object-cover rounded-lg border border-slate-200" alt="img">
-                        <div>
-                            <span class="font-semibold text-slate-900 block leading-tight">${product.title}</span>
-                            <span class="text-xs text-slate-400 line-clamp-1">${product.description || ''}</span>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4">
-                        <span class="inline-block bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md font-medium border border-slate-200">${product.category}</span>
-                    </td>
-                    <td class="px-6 py-4 font-semibold text-slate-900">
-                        RM ${parseFloat(product.price).toFixed(2)}
-                    </td>
-                    <td class="px-6 py-4">
-                        <span class="inline-block bg-indigo-50 text-indigo-700 text-xs px-2 py-0.5 rounded font-mono font-medium">${product.format}</span>
-                    </td>
-                    <td class="px-6 py-4 text-right space-x-2">
-                        <button onclick="editProduct('${product.id}')" class="text-slate-500 hover:text-indigo-600 p-1.5"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button onclick="deleteProduct('${product.id}')" class="text-slate-500 hover:text-rose-600 p-1.5"><i class="fa-solid fa-trash-can"></i></button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-            updateStats();
-        }
-
-        /* Product Modal (Add / Edit) */
-        function openAddProductModal() {
-            document.getElementById('modal-title').innerText = "Tambah Bahan Digital Baru";
-            document.getElementById('product-form').reset();
-            document.getElementById('form-product-id').value = '';
-            document.getElementById('product-modal').classList.remove('hidden');
-        }
-
-        function closeProductModal() {
-            document.getElementById('product-modal').classList.add('hidden');
-        }
-
-        function editProduct(id) {
-            const product = products.find(p => p.id === id);
-            if (!product) return;
-
-            document.getElementById('modal-title').innerText = "Kemaskini Bahan Digital";
-            document.getElementById('form-product-id').value = product.id;
-            document.getElementById('form-title').value = product.title;
-            document.getElementById('form-category').value = product.category;
-            document.getElementById('form-price').value = product.price;
-            document.getElementById('form-format').value = product.format;
-            document.getElementById('form-image').value = product.image || '';
-            document.getElementById('form-description').value = product.description || '';
-            document.getElementById('form-download-link').value = product.downloadUrl;
-
-            document.getElementById('product-modal').classList.remove('hidden');
-        }
-
-        function handleProductFormSubmit(e) {
-            e.preventDefault();
-            const id = document.getElementById('form-product-id').value;
-            const title = document.getElementById('form-title').value;
-            const category = document.getElementById('form-category').value;
-            const price = parseFloat(document.getElementById('form-price').value);
-            const format = document.getElementById('form-format').value;
-            const image = document.getElementById('form-image').value || 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=500&q=80';
-            const description = document.getElementById('form-description').value;
-            const downloadUrl = document.getElementById('form-download-link').value;
-
-            if (id) {
-                // Edit
-                const index = products.findIndex(p => p.id === id);
-                if (index !== -1) {
-                    products[index] = { id, title, category, price, format, image, description, downloadUrl };
-                    showToast("Bahan berjaya dikemaskini!");
-                }
-            } else {
-                // Add New
-                const newProduct = {
-                    id: 'prod-' + Date.now(),
-                    title, category, price, format, image, description, downloadUrl
+            if (!localStorage.getItem(STORAGE_KEYS.SELLER)) {
+                const defaultSeller = {
+                    name: "Sarah Learning",
+                    username: "sarahlearning",
+                    email: "sarah@learning.com",
+                    phone: "60123456789",
+                    password: "password123",
+                    waLink: "https://wa.me/60123456789",
+                    facebook: "https://facebook.com/sarahlearning",
+                    instagram: "https://instagram.com/sarahlearning",
+                    tiktoks: ["https://tiktok.com/@sarahlearning"],
+                    threads: ["https://threads.net/@sarahlearning"],
+                    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&auto=format&fit=crop&q=80"
                 };
-                products.push(newProduct);
-                showToast("Bahan baru berjaya ditambah!");
+                localStorage.setItem(STORAGE_KEYS.SELLER, JSON.stringify(defaultSeller));
             }
 
-            saveDatabase();
-            closeProductModal();
-            renderSellerTable();
-        }
+            if (!localStorage.getItem(STORAGE_KEYS.FOLDERS)) {
+                const defaultFolders = [
+                    "Modul Prasekolah",
+                    "Modul Sekolah Rendah",
+                    "Modul Sekolah Menengah",
+                    "KAFA / UPKK / SRA",
+                    "Aplikasi & Game Interactive",
+                    "Bundle",
+                    "YouTube Channel",
+                    "Bahan Percuma"
+                ];
+                localStorage.setItem(STORAGE_KEYS.FOLDERS, JSON.stringify(defaultFolders));
+            }
 
-        function deleteProduct(id) {
-            if (confirm("Adakah anda pasti mahu memadamkan bahan digital ini?")) {
-                products = products.filter(p => p.id !== id);
-                saveDatabase();
-                renderSellerTable();
-                showToast("Bahan berjaya dipadam!");
+            if (!localStorage.getItem(STORAGE_KEYS.PRODUCTS)) {
+                const defaultProducts = [
+                    {
+                        id: "SCH0001",
+                        folder: "Modul Sekolah Rendah",
+                        name: "Modul Matematik Tahun 3 (Topikal)",
+                        desc: "Latih tubi komprehensif mengikut silibus KSSR Semakan terbaru. Lengkap dengan skema jawapan.",
+                        price: 30.00,
+                        promoType: "percent",
+                        promoVal: 20,
+                        finalPrice: 24.00,
+                        images: ["https://images.unsplash.com/photo-1509062522246-3755977927d7?w=500&auto=format&fit=crop&q=80"],
+                        video: "",
+                        waLink: "https://wa.me/60123456789"
+                    },
+                    {
+                        id: "SCH0002",
+                        folder: "Modul Sekolah Rendah",
+                        name: "Modul Bahasa Melayu Tahun 4",
+                        desc: "Panduan tatabahasa dan penulisan karangan berformat terkini.",
+                        price: 25.00,
+                        promoType: "none",
+                        promoVal: 0,
+                        finalPrice: 25.00,
+                        images: ["https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=500&auto=format&fit=crop&q=80"],
+                        video: "",
+                        waLink: "https://wa.me/60123456789"
+                    },
+                    {
+                        id: "SCH0003",
+                        folder: "Bundle",
+                        name: "Bundle Aktiviti Prasekolah (5 in 1)",
+                        desc: "Koleksi lembaran kerja mewarna, mengira, dan mengenal huruf khas untuk tadika.",
+                        price: 50.00,
+                        promoType: "fixed",
+                        promoVal: 10,
+                        finalPrice: 40.00,
+                        images: ["https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=500&auto=format&fit=crop&q=80"],
+                        video: "",
+                        waLink: "https://wa.me/60123456789"
+                    }
+                ];
+                localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(defaultProducts));
+            }
+
+            if (!localStorage.getItem(STORAGE_KEYS.PAYMENT_QR)) {
+                const sampleQR = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=MALAYSIA_DUITNOW_QR_SAMPLE";
+                localStorage.setItem(STORAGE_KEYS.PAYMENT_QR, JSON.stringify({
+                    bank: sampleQR,
+                    tng: sampleQR,
+                    aeon: ""
+                }));
+            }
+
+            if (!localStorage.getItem(STORAGE_KEYS.SALES)) {
+                const defaultSales = [
+                    {
+                        saleId: "SL-1001",
+                        productId: "SCH0001",
+                        productName: "Modul Matematik Tahun 3 (Topikal)",
+                        price: 24.00,
+                        date: "2026-09-17",
+                        time: "14:30",
+                        sessionId: "SES-DEMO1"
+                    },
+                    {
+                        saleId: "SL-1002",
+                        productId: "SCH0003",
+                        productName: "Bundle Aktiviti Prasekolah (5 in 1)",
+                        price: 40.00,
+                        date: "2026-09-17",
+                        time: "16:15",
+                        sessionId: "SES-DEMO2"
+                    }
+                ];
+                localStorage.setItem(STORAGE_KEYS.SALES, JSON.stringify(defaultSales));
             }
         }
 
-        /* Public Storefront Logic */
-        function renderPublicCategories() {
-            const container = document.getElementById('public-category-filters');
-            const categories = ['ALL', ...new Set(products.map(p => p.category))];
-            
-            container.innerHTML = categories.map(cat => {
-                const isActive = cat === selectedPublicCategory;
-                const activeClasses = isActive ? "bg-indigo-600 text-white shadow-sm" : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200";
-                return `<button onclick="filterCategory('${cat}')" class="px-4 py-1.5 rounded-xl text-xs font-semibold transition-all ${activeClasses}">${cat === 'ALL' ? 'Semua Kategori' : cat}</button>`;
-            }).join('');
+        /* Helper Functions */
+        function getStorage(key) { return JSON.parse(localStorage.getItem(key)); }
+        function setStorage(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = msg;
+            toast.style.display = 'flex';
+            setTimeout(() => { toast.style.display = 'none'; }, 3000);
         }
 
-        function filterCategory(cat) {
-            selectedPublicCategory = cat;
-            renderPublicCategories();
-            renderPublicProducts();
+        /* Routing */
+        function navigateTo(viewId) {
+            document.querySelectorAll('.view-page').forEach(v => v.classList.remove('active'));
+            const target = document.getElementById(viewId);
+            if (target) target.classList.add('active');
+            window.scrollTo(0,0);
         }
 
-        function filterPublicProducts() {
-            renderPublicProducts();
-        }
+        /* Public Storefront Functions */
+        let publicStoreFilterFolder = null;
 
-        function renderPublicProducts() {
-            const grid = document.getElementById('public-products-grid');
-            const searchVal = document.getElementById('public-search')?.value.toLowerCase() || '';
+        function renderPublicStorefront() {
+            const seller = getStorage(STORAGE_KEYS.SELLER);
+            const folders = getStorage(STORAGE_KEYS.FOLDERS) || [];
+            const products = getStorage(STORAGE_KEYS.PRODUCTS) || [];
 
-            const filtered = products.filter(p => {
-                const matchesCategory = (selectedPublicCategory === 'ALL' || p.category === selectedPublicCategory);
-                const matchesSearch = p.title.toLowerCase().includes(searchVal) || p.description.toLowerCase().includes(searchVal);
-                return matchesCategory && matchesSearch;
+            document.getElementById('public-store-title').innerText = `${seller.name} Digital Store`;
+            if (seller.avatar) document.getElementById('public-store-avatar').src = seller.avatar;
+
+            // Render Social Media Icons
+            const socialContainer = document.getElementById('public-social-icons');
+            socialContainer.innerHTML = '';
+
+            if (seller.waLink) socialContainer.innerHTML += `<a href="${seller.waLink}" target="_blank" class="btn btn-secondary btn-sm"><i class="fa-brands fa-whatsapp" style="color:#16A34A;"></i> WhatsApp</a>`;
+            if (seller.facebook) socialContainer.innerHTML += `<a href="${seller.facebook}" target="_blank" class="btn btn-secondary btn-sm"><i class="fa-brands fa-facebook" style="color:#1877F2;"></i> Facebook</a>`;
+            if (seller.instagram) socialContainer.innerHTML += `<a href="${seller.instagram}" target="_blank" class="btn btn-secondary btn-sm"><i class="fa-brands fa-instagram" style="color:#E4405F;"></i> Instagram</a>`;
+            if (seller.tiktoks) {
+                seller.tiktoks.forEach((tk, i) => {
+                    if (tk) socialContainer.innerHTML += `<a href="${tk}" target="_blank" class="btn btn-secondary btn-sm"><i class="fa-brands fa-tiktok"></i> TikTok ${i+1}</a>`;
+                });
+            }
+
+            // Render Folder Filters
+            const filterBar = document.getElementById('public-folder-filter-bar');
+            filterBar.innerHTML = `<button class="month-btn ${publicStoreFilterFolder === null ? 'active':''}" onclick="setPublicFolderFilter(null)">Semua Bahan</button>`;
+
+            folders.forEach(f => {
+                filterBar.innerHTML += `<button class="month-btn ${publicStoreFilterFolder === f ? 'active':''}" onclick="setPublicFolderFilter('${f}')">${f}</button>`;
             });
 
+            // Filter Products
+            const grid = document.getElementById('public-products-grid');
             grid.innerHTML = '';
 
-            if (filtered.length === 0) {
-                grid.innerHTML = `
-                    <div class="col-span-full py-12 text-center text-slate-400 space-y-2">
-                        <i class="fa-solid fa-folder-open text-4xl mb-2 text-slate-300"></i>
-                        <p class="font-medium text-slate-600">Tiada bahan digital ditemui.</p>
-                        <p class="text-xs text-slate-400">Cuba cari dengan kata kunci lain atau pilih kategori berbeza.</p>
-                    </div>
-                `;
-                return;
-            }
+            const filtered = publicStoreFilterFolder ? products.filter(p => p.folder === publicStoreFilterFolder) : products;
 
             filtered.forEach(p => {
-                const card = document.createElement('div');
-                card.className = "bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col product-card";
-                card.innerHTML = `
-                    <div class="relative h-44 bg-slate-100 overflow-hidden">
-                        <img src="${p.image}" class="w-full h-full object-cover" alt="${p.title}" onerror="this.src='https://via.placeholder.com/400x200?text=Digital+Product'">
-                        <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-indigo-700 text-[11px] font-bold px-2.5 py-1 rounded-lg border border-slate-200/50 shadow-sm">${p.format}</span>
-                        <span class="absolute top-3 left-3 bg-slate-900/70 backdrop-blur-md text-white text-[11px] font-medium px-2.5 py-1 rounded-lg">${p.category}</span>
-                    </div>
-                    <div class="p-5 flex-grow flex flex-col justify-between space-y-4">
-                        <div class="space-y-2">
-                            <h3 class="font-bold text-slate-900 text-base leading-snug line-clamp-2 hover:text-indigo-600 transition-colors">${p.title}</h3>
-                            <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">${p.description || 'Tiada penerangan tambahan.'}</p>
-                        </div>
-                        <div class="pt-3 border-t border-slate-100 flex items-center justify-between mt-auto">
-                            <div>
-                                <span class="text-[10px] uppercase font-bold text-slate-400 block leading-none">Harga</span>
-                                <span class="text-lg font-extrabold text-slate-900">RM ${parseFloat(p.price).toFixed(2)}</span>
+                const img = (p.images && p.images.length > 0) ? p.images[0] : 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=500&auto=format&fit=crop&q=80';
+                
+                grid.innerHTML += `
+                    <div class="product-card" onclick="openProductDetailPage('${p.id}')" style="cursor:pointer;">
+                        <img src="${img}" class="product-img">
+                        <div class="product-body">
+                            <span class="badge badge-warning" style="align-self:flex-start; margin-bottom:6px;">${p.id}</span>
+                            <h3 style="font-size:1rem; font-weight:700; margin-bottom:8px;">${p.name}</h3>
+                            <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.4; margin-bottom:12px;">${p.desc.substring(0, 70)}...</p>
+                            <div style="margin-top:auto; display:flex; justify-content:space-between; align-items:center;">
+                                <span style="font-size:1.2rem; font-weight:800; color:var(--primary);">RM ${parseFloat(p.finalPrice).toFixed(2)}</span>
+                                <button class="btn btn-primary btn-sm"><i class="fa-solid fa-eye"></i> Lihat Detail</button>
                             </div>
-                            <button onclick="openBuyModal('${p.id}')" class="flex items-center space-x-1.5 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl font-medium text-xs shadow-md transition-colors">
-                                <i class="fa-solid fa-cart-shopping"></i>
-                                <span>Dapatkan</span>
-                            </button>
                         </div>
                     </div>
                 `;
-                grid.appendChild(card);
             });
         }
 
-        /* Purchase Modal Logic */
-        function openBuyModal(id) {
-            const product = products.find(p => p.id === id);
-            if (!product) return;
-
-            const modalContent = document.getElementById('buy-modal-content');
-            modalContent.innerHTML = `
-                <div class="flex items-start space-x-3">
-                    <img src="${product.image}" class="w-12 h-12 object-cover rounded-lg border border-slate-200 flex-shrink-0">
-                    <div>
-                        <h4 class="font-bold text-slate-900 text-sm leading-tight">${product.title}</h4>
-                        <span class="text-xs text-indigo-600 font-semibold mt-1 inline-block">RM ${parseFloat(product.price).toFixed(2)} (${product.format})</span>
-                    </div>
-                </div>
-            `;
-
-            const downloadBtn = document.getElementById('buy-download-btn');
-            downloadBtn.href = product.downloadUrl || '#';
-
-            document.getElementById('buy-modal').classList.remove('hidden');
+        function setPublicFolderFilter(f) {
+            publicStoreFilterFolder = f;
+            renderPublicStorefront();
         }
 
-        function closeBuyModal() {
-            document.getElementById('buy-modal').classList.add('hidden');
-        }
-
-        /* ==========================================================================
-           PEMBAIKAN FUNGSI COPY LINK KEDAI (STORE LINK COPY FIX)
-           ========================================================================== */
         function copyStoreLink() {
-            // Membina URL lengkap dengan parameter hash pelayar (#public)
-            const baseUrl = window.location.href.split('#')[0].split('?')[0];
-            const storeUrl = baseUrl + '#public';
-            
-            // Menggunakan kaedah fallback terus untuk mengelakkan isu sekat API
-            fallbackCopyText(storeUrl);
+            const seller = getStorage(STORAGE_KEYS.SELLER);
+            const dummyUrl = `${window.location.origin}/store/${seller.username}`;
+            navigator.clipboard.writeText(dummyUrl);
+            showToast("Link kedai berjaya disalin!");
         }
 
-        function fallbackCopyText(text) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            
-            // Elak skrol skrin bergerak semasa manipulasi DOM
-            textArea.style.top = "0";
-            textArea.style.left = "0";
-            textArea.style.position = "fixed";
-            textArea.style.opacity = "0";
-            
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            
-            try {
-                const successful = document.execCommand('copy');
-                if (successful) {
-                    showToast("Link kedai awam berjaya disalin!");
-                } else {
-                    prompt("Sila salin link kedai ini secara manual:", text);
-                }
-            } catch (err) {
-                prompt("Sila salin link kedai ini secara manual:", text);
+        /* Product Detail & Checkout Flow */
+        let activeDetailProduct = null;
+
+        function openProductDetailPage(id) {
+            const products = getStorage(STORAGE_KEYS.PRODUCTS) || [];
+            const p = products.find(item => item.id === id);
+            if (!p) return;
+
+            activeDetailProduct = p;
+
+            document.getElementById('pdetail-id-badge').innerText = p.id;
+            document.getElementById('pdetail-title').innerText = p.name;
+            document.getElementById('pdetail-description').innerText = p.desc;
+
+            if (p.promoType && p.promoType !== 'none') {
+                document.getElementById('pdetail-price-original').style.display = 'inline';
+                document.getElementById('pdetail-price-original').innerText = `RM ${parseFloat(p.price).toFixed(2)}`;
+            } else {
+                document.getElementById('pdetail-price-original').style.display = 'none';
             }
+
+            document.getElementById('pdetail-price-final').innerText = `RM ${parseFloat(p.finalPrice).toFixed(2)}`;
+            document.getElementById('pdetail-btn-whatsapp').href = p.waLink || getStorage(STORAGE_KEYS.SELLER).waLink;
+
+            const previewBox = document.getElementById('pdetail-media-preview');
+            const thumbBox = document.getElementById('pdetail-thumbnails');
+            thumbBox.innerHTML = '';
+
+            const allImages = (p.images && p.images.length > 0) ? p.images : ['https://images.unsplash.com/photo-1509062522246-3755977927d7?w=500&auto=format&fit=crop&q=80'];
             
-            document.body.removeChild(textArea);
+            previewBox.innerHTML = `<img src="${allImages[0]}" style="width:100%; height:100%; object-fit:cover;">`;
+
+            allImages.forEach((img) => {
+                thumbBox.innerHTML += `<img src="${img}" style="width:50px; height:50px; border-radius:6px; object-fit:cover; cursor:pointer;" onclick="setMediaPreview('${img}', false)">`;
+            });
+
+            if (p.video) {
+                thumbBox.innerHTML += `<div style="width:50px; height:50px; border-radius:6px; background:#1E293B; color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer;" onclick="setMediaPreview('${p.video}', true)"><i class="fa-solid fa-play"></i></div>`;
+            }
+
+            navigateTo('view-product-detail');
         }
 
-        /* UI Helpers: Toast Notification */
-        function showToast(message) {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = "bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl text-xs font-medium flex items-center space-x-2 border border-slate-700 pointer-events-auto animate-bounce";
-            toast.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i> <span>${message}</span>`;
-            
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.remove();
-            }, 3000);
+        function setMediaPreview(src, isVideo) {
+            const previewBox = document.getElementById('pdetail-media-preview');
+            if (isVideo) {
+                previewBox.innerHTML = `<video src="${src}" controls style="width:100%; height:100%; object-fit:cover;"></video>`;
+            } else {
+                previewBox.innerHTML = `<img src="${src}" style="width:100%; height:100%; object-fit:cover;">`;
+            }
         }
 
-        /* Initial Execution & Routing Semasa Muatan */
+        /* Checkout & Expiration Session Tracking */
+        let activeSession = null;
+        let countdownInterval = null;
+
+        function startCheckoutSession() {
+            if (!activeDetailProduct) return;
+
+            const now = new Date();
+            const expiry = new Date(now.getTime() + 2 * 60 * 60 * 1000); // 2 Hours Expiry
+
+            const session = {
+                sessionId: 'SES-' + Math.floor(100000 + Math.random() * 900000),
+                productId: activeDetailProduct.id,
+                productName: activeDetailProduct.name,
+                priceAtCheckout: activeDetailProduct.finalPrice,
+                createdTime: now.toISOString(),
+                expiryTime: expiry.toISOString(),
+                status: 'PENDING'
+            };
+
+            const sessions = getStorage(STORAGE_KEYS.SESSIONS) || [];
+            sessions.push(session);
+            setStorage(STORAGE_KEYS.SESSIONS, sessions);
+
+            activeSession = session;
+            renderPaymentPage();
+            navigateTo('view-checkout');
+        }
+
+        function renderPaymentPage() {
+            if (!activeSession) return;
+
+            document.getElementById('checkout-session-id').innerText = activeSession.sessionId;
+            document.getElementById('checkout-product-name').innerText = activeSession.productName;
+            document.getElementById('checkout-product-id').innerText = activeSession.productId;
+            document.getElementById('checkout-price').innerText = `RM ${parseFloat(activeSession.priceAtCheckout).toFixed(2)}`;
+
+            if (countdownInterval) clearInterval(countdownInterval);
+            countdownInterval = setInterval(updateCheckoutTimer, 1000);
+            updateCheckoutTimer();
+
+            switchQRTab('bank');
+        }
+
+        function updateCheckoutTimer() {
+            if (!activeSession) return;
+            const now = new Date().getTime();
+            const expiry = new Date(activeSession.expiryTime).getTime();
+            const diff = expiry - now;
+
+            if (diff <= 0) {
+                clearInterval(countdownInterval);
+                document.getElementById('timer-display').innerText = "EXPIRED (Sesi Tamat)";
+                activeSession.status = 'EXPIRED';
+                alert("Sesi pembelian telah tamat tempoh 2 jam. Sila muat semula kedai untuk teruskan.");
+                navigateTo('view-public-store');
+                return;
+            }
+
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('timer-display').innerText = 
+                `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+        }
+
+        function switchQRTab(type) {
+            document.querySelectorAll('.qr-tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`qrtab-${type}`).classList.add('active');
+
+            const qrs = getStorage(STORAGE_KEYS.PAYMENT_QR) || {};
+            const img = document.getElementById('checkout-qr-img');
+            const placeholder = document.getElementById('checkout-qr-placeholder');
+            const dlBtn = document.getElementById('btn-download-qr');
+
+            if (qrs[type]) {
+                img.src = qrs[type];
+                img.style.display = 'block';
+                placeholder.style.display = 'none';
+                dlBtn.href = qrs[type];
+            } else {
+                img.style.display = 'none';
+                placeholder.style.display = 'block';
+                placeholder.innerText = `Seller belum menyediakan QR bagi ${type.toUpperCase()}`;
+            }
+        }
+
+        function completeSalesAndOpenWhatsApp() {
+            if (!activeSession || activeSession.status === 'EXPIRED') {
+                alert("Sesi pembelian telah luput!");
+                return;
+            }
+
+            const sales = getStorage(STORAGE_KEYS.SALES) || [];
+            const now = new Date();
+            const dateStr = now.toISOString().split('T')[0];
+            const timeStr = now.toTimeString().split(' ')[0].substring(0,5);
+
+            const newSale = {
+                saleId: 'SL-' + Math.floor(1000 + Math.random() * 9000),
+                productId: activeSession.productId,
+                productName: activeSession.productName,
+                price: activeSession.priceAtCheckout,
+                date: dateStr,
+                time: timeStr,
+                sessionId: activeSession.sessionId
+            };
+
+            sales.push(newSale);
+            setStorage(STORAGE_KEYS.SALES, sales);
+
+            activeSession.status = 'COMPLETED';
+
+            const seller = getStorage(STORAGE_KEYS.SELLER);
+            const waMsg = `Salam seller, saya telah membuat pembayaran untuk ${activeSession.productName} (${activeSession.productId}) berharga RM ${parseFloat(activeSession.priceAtCheckout).toFixed(2)}. Sila semak resit pembelian ini.`;
+            const waUrl = `${activeDetailProduct.waLink || seller.waLink}?text=${encodeURIComponent(waMsg)}`;
+
+            window.open(waUrl, '_blank');
+            showToast("Jualan direkodkan! Buka WhatsApp seller...");
+        }
+
+        /* App Initialization */
         window.addEventListener('DOMContentLoaded', () => {
             initDatabase();
-            
-            // Semak jika URL dibuka dengan pautan kedai awam (#public atau ?view=public)
-            const isPublicHash = window.location.hash === '#public';
-            const urlParams = new URLSearchParams(window.location.search);
-            const isPublicQuery = urlParams.get('view') === 'public';
-
-            if (isPublicHash || isPublicQuery) {
-                switchView('public');
-            } else {
-                switchView('seller');
-            }
+            renderPublicStorefront();
+            navigateTo('view-public-store');
         });
     </script>
 </body>
