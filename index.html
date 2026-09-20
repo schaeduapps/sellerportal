@@ -315,7 +315,7 @@
         </div>
     </div>
 
-    <!-- 4. VIEW: PUBLIC STORE FRONT (UNtuk Pelanggan) -->
+    <!-- 4. VIEW: PUBLIC STORE FRONT (Untuk Pelanggan) -->
     <div id="view-public-store" class="app-view">
         <div class="public-store-container">
             <div class="seller-header">
@@ -395,15 +395,16 @@
         import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs, addDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         // ==========================================
-        // ISIKAN MAKLUAT FIREBASE ANDA DI SINI:
+        // FIREBASE CONFIG SEBENAR ANDA:
         // ==========================================
         const firebaseConfig = {
-            apiKey: "YOUR_FIREBASE_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyBeqDjkbd6xh6fAmfvuE9hQSuN2x1xVlBc",
+            authDomain: "schaatelier-bb2a4.firebaseapp.com",
+            databaseURL: "https://schaatelier-bb2a4-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "schaatelier-bb2a4",
+            storageBucket: "schaatelier-bb2a4.firebasestorage.app",
+            messagingSenderId: "283012729190",
+            appId: "1:283012729190:web:f0328908a94682560060a7"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -670,7 +671,7 @@
             showToast("Profil berjaya dikemaskini.");
         });
 
-        // --- SECTION B: PUBLIC STORE FRONT (UNtuk Pelanggan) ---
+        // --- SECTION B: PUBLIC STORE FRONT (Untuk Pelanggan) ---
         async function loadPublicStore(username) {
             switchView('view-public-store');
             const q = query(collection(db, "sellers"), where("username", "==", username));
